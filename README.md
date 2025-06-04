@@ -1,6 +1,6 @@
 # NexusBot
 
-NexusBot is a modular Discord bot built with Python, designed to enhance server interactions through customizable commands and features.
+NexusBot is a modular nextcord bot built with Python, designed to enhance server interactions through customizable commands and features.
 
 ---
 
@@ -17,7 +17,7 @@ NexusBot is a modular Discord bot built with Python, designed to enhance server 
 ### Prerequisites
 
 - Python 3.8 or higher
-- Discord account and a registered application with a bot token
+- nextcord account and a registered application with a bot token
 - Required Python packages (see `requirements.txt` if available)
 
 ### Installation
@@ -35,7 +35,7 @@ NexusBot is a modular Discord bot built with Python, designed to enhance server 
 
 3. **Configure environment variables**
    - Rename `.env.example` to `.env`
-   - Fill in your Discord bot token and any other necessary configurations
+   - Fill in your nextcord bot token and any other necessary configurations
 
 4. **Run the bot**
    ```bash
@@ -62,11 +62,3 @@ NexusBot/
 Contributions are welcome! Feel free to fork the repository and submit pull requests.
 
 ---
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-*Crafted with ❤️ by [Humayra Adiba](https://github.com/Humayra-Adiba)*

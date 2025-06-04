@@ -1,7 +1,6 @@
 import aiohttp
-import discord
-from discord.ext import commands
-
+import nextcord
+from nextcord.ext import commands
 
 class Fun(commands.Cog):
     def __init__(self, bot):
@@ -11,17 +10,57 @@ class Fun(commands.Cog):
         "bird": {
             "url": "https://some-random-api.com/animal/bird",
             "emoji": "🕊️",
-            "color": discord.Color.blue()
+            "color": nextcord.Color.blue()
         },
         "cat": {
             "url": "https://some-random-api.com/animal/cat",
             "emoji": "🐱",
-            "color": discord.Color.purple()
+            "color": nextcord.Color.purple()
         },
         "dog": {
             "url": "https://some-random-api.com/animal/dog",
             "emoji": "🐶",
-            "color": discord.Color.orange()
+            "color": nextcord.Color.orange()
+        },
+        "donkey": {
+            "url": "https://some-random-api.com/animal/donkey", 
+            "emoji": "🫏",
+            "color": nextcord.Color.dark_orange()
+        },
+        "panda": {
+            "url": "https://some-random-api.com/animal/panda",
+            "emoji": "🐼",
+            "color": nextcord.Color.green()
+        },
+        "fox": {
+            "url": "https://some-random-api.com/animal/fox",
+            "emoji": "🦊",
+            "color": nextcord.Color.red()
+        },
+        "koala": {
+            "url": "https://some-random-api.com/animal/koala",
+            "emoji": "🐨",
+            "color": nextcord.Color.teal()
+        },
+        "kangaroo": {
+            "url": "https://some-random-api.com/animal/kangaroo",
+            "emoji": "🦘",
+            "color": nextcord.Color.gold()
+        },
+        "raccoon": {
+            "url": "https://some-random-api.com/animal/raccoon",
+            "emoji": "🦝",
+            "color": nextcord.Color.dark_grey()
+        },
+        "whale": {
+            "url": "https://some-random-api.com/animal/whale",
+            "emoji": "🐋",
+            "color": nextcord.Color.dark_blue()
+        },
+        "duck": {
+            "url": "https://some-random-api.com/animal/duck",
+            "emoji": "🦆",
+            "color": nextcord.Color.light_grey()
         }
     }
 
@@ -39,7 +78,7 @@ class Fun(commands.Cog):
             async with session.get(api["url"]) as response:
                 if response.status == 200:
                     data = await response.json()
-                    embed = discord.Embed(
+                    embed = nextcord.Embed(
                         title=f"{api['emoji']} Random {kind.title()} fact",
                         description=data.get("fact", "Here's something cute for you!"),
                         color=api["color"]
@@ -50,7 +89,23 @@ class Fun(commands.Cog):
                 else:
                     await ctx.send("⚠️ Couldn't fetch animal data right now. Please try again later.")
 
+    @commands.command()
+    async def joke(self, ctx):
+        async with aiohttp.ClientSession() as session:
+            async with session.get("https://v2.jokeapi.dev/joke/Any?type=single") as response:
+                if response.status == 200:
+                    data = await response.json()
+                    joke = data.get("joke", "I couldn't find a joke 😢")
+                    embed = nextcord.Embed(
+                        title="Here's a joke for you! 😄",
+                        description=joke,
+                        color=nextcord.Color.random()
+                    )
+                    embed.set_footer(text="So how was it? Hope you laughed! 😂 • NexusBot ✨")
+                    await ctx.send(embed=embed)
+                else:
+                    await ctx.send("Couldn't fetch a joke right now.")
 
-async def setup(bot):
-    await bot.add_cog(Fun(bot))
+def setup(bot):
+    bot.add_cog(Fun(bot))
     print("Fun cog loaded.")

@@ -1,5 +1,5 @@
-import discord
-from discord.ext import commands
+import nextcord
+from nextcord.ext import commands
 
 class Greetings(commands.Cog):
     def __init__ (self,bot):
@@ -28,9 +28,24 @@ class Greetings(commands.Cog):
         if channel:
             await channel.send(f"Goodbye {member.mention},hope to see you again!")
 
+    
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        if message.author.bot:
+            return
+        
+        if "hello" in message.content.lower():
+            await message.channel.send(f"Hello {message.author.mention}! How can I assist you today?")
 
-async def setup(bot):
-    await bot.add_cog(Greetings(bot))
+        if "help" in message.content.lower():
+            await message.channel.send(f"Hi {message.author.mention}! If you need assistance, feel free to ask!")
+
+        if "bye" in message.content.lower():
+            await message.channel.send(f"Goodbye {message.author.mention}! Have a great day! Wishing you all the best! 🌟")
+
+
+def setup(bot):
+    bot.add_cog(Greetings(bot))
     print("Greetings cog loaded.")
 
 

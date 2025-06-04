@@ -1,6 +1,6 @@
-import discord
-from discord.ext import commands
-from discord.ext.commands import has_permissions
+import nextcord
+from nextcord.ext import commands
+from nextcord.ext.commands import has_permissions
 
 class Moderation(commands.Cog):
     def __init__ (self,bot):
@@ -8,7 +8,7 @@ class Moderation(commands.Cog):
 
     @commands.command()
     @has_permissions(kick_members=True)
-    async def kick(self, ctx, member: discord.Member, *, reason=None):
+    async def kick(self, ctx, member: nextcord.Member, *, reason=None):
         if ctx.author == member:
             await ctx.send("You can't kick yourself!")
             # return
@@ -27,7 +27,7 @@ class Moderation(commands.Cog):
 
     @commands.command()
     @has_permissions(ban_members=True)
-    async def ban(self, ctx, member: discord.Member, *, reason=None):
+    async def ban(self, ctx, member: nextcord.Member, *, reason=None):
         if ctx.author == member:
             await ctx.send("You can't ban yourself!")
             return
@@ -44,26 +44,26 @@ class Moderation(commands.Cog):
         await ctx.send(f"{member.mention} has been banned from the server.🔥")
 
     @commands.command()
-    async def message(self,ctx, user: discord.Member, *, message: str = "Welcome to the server! You are now a member of NexusBot!"):
+    async def message(self,ctx, user: nextcord.Member, *, message: str = "Welcome to the server! You are now a member of NexusBot!"):
         if not user:
             await ctx.send("Please mention a user to send a massage.")
             return
 
-        embed = discord.Embed(
+        embed = nextcord.Embed(
             title="Massage from NexusBot",
             description=message,
-            color=discord.Color.green()
+            color=nextcord.Color.green()
         )
         embed.set_footer(text=f"Sent by {ctx.author.name}", icon_url=ctx.author.avatar.url)
         
         try:
             await user.send(embed=embed)
             await ctx.send(f"Massage sent to {user.mention} successfully! 💌")
-        except discord.Forbidden:
+        except nextcord.Forbidden:
             await ctx.send(f"Could not send a massage to {user.mention}. They might have DMs disabled.")
 
 
 
-async def setup(bot):
-    await bot.add_cog(Moderation(bot))
+def setup(bot):
+    bot.add_cog(Moderation(bot))
     print("Moderation cog loaded.")
