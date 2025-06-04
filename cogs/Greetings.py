@@ -1,5 +1,6 @@
 import nextcord
 from nextcord.ext import commands
+import random
 
 class Greetings(commands.Cog):
     def __init__ (self,bot):
@@ -42,6 +43,7 @@ class Greetings(commands.Cog):
 
         if "bye" in message.content.lower():
             await message.channel.send(f"Goodbye {message.author.mention}! Have a great day! Wishing you all the best! 🌟")
+
 
 
 def setup(bot):
