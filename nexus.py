@@ -23,18 +23,18 @@ async def on_ready():
 
 
 
-def load_cogs():
-    for filename in os.listdir('./cogs'):
-        if filename.endswith('.py'):
-            client.load_extension(f'cogs.{filename[:-3]}')
-            print(f"Loaded cog: {filename[:-3]}")
+def load_extensions():
+    for folder in ["cogs", "slash"]:
+        for filename in os.listdir(folder):
+            if filename.endswith(".py"):
+                try:
+                    client.load_extension(f"{folder}.{filename[:-3]}")
+                    print(f"{filename[:-3]} cog loaded.")
+                except Exception as e:
+                    print(f"Failed to load {filename}: {e}")
 
-# def main():
-#     load_cogs()
-#     client.start(token)
 
-# asyncio.run(main())
-# Main entry point
 if __name__ == "__main__":
-    load_cogs()
+    load_extensions()
     client.run(token)
+

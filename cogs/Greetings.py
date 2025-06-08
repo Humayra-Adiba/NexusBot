@@ -22,13 +22,24 @@ class Greetings(commands.Cog):
     async def on_member_join(self,member):
         channel = self.bot.get_channel(1375436330443472928)
         if channel:
-            await channel.send(f"Welcome {member.mention} to the server! Hope you have a great time here! 🎉")
+            embed = nextcord.Embed(
+                title="🎉 Welcome!",
+                description=f"Welcome to **{member.guild.name}**, {member.mention} the server! Hope you have a great time here! 🎉",
+                color=nextcord.Color.gold()
+            )
+            embed.set_thumbnail(url=member.display_avatar.url)
+            await channel.send(embed=embed)
 
     @commands.Cog.listener()
     async def on_member_remove(self,member):
         channel = self.bot.get_channel(1375436330443472928)
         if channel:
-            await channel.send(f"Goodbye {member.mention},hope to see you again!")
+            embed = nextcord.Embed(
+                title="😢 Goodbye!",
+                description=f"{member.mention} has left the server.",
+                color=nextcord.Color.red()
+            )
+            await channel.send(embed=embed)
 
     
     @commands.Cog.listener()
