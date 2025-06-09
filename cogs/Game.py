@@ -7,6 +7,68 @@ class Game(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+
+    @commands.command(name="tictactoe", help="Play a Tic-Tac-Toe game with another user.")
+    async def tictactoe(self, ctx, opponent: nextcord.Member = None):
+        if opponent is None:
+            return await ctx.send("❗ You must mention someone to play with. Usage: `!tictactoe @user`")
+
+        if opponent.bot or opponent == ctx.author:
+            return await ctx.send("❌ Invalid opponent. Choose a human other than yourself.")
+
+        board = [":white_large_square:"] * 9
+        current_player = ctx.author
+        players = {ctx.author: "❌", opponent: "⭕"}
+
+        def format_board():
+            rows = []
+            for i in range(0, 9, 3):
+                rows.append(" ".join(board[i:i+3]))
+            return "\n".join(rows)
+
+        embed = nextcord.Embed(
+            title="🎮 Tic-Tac-Toe",
+            description=f"{ctx.author.mention} vs {opponent.mention}\n\n{format_board()}",
+            color=nextcord.Color.gold()
+        )
+        embed.set_footer(text="Type a number (1-9) to mark your move.")
+        game_msg = await ctx.send(embed=embed)
+
+        def check(m):
+            return m.author == current_player and m.channel == ctx.channel and m.content.isdigit()
+
+        for turn in range(9):
+            await ctx.send(f"🔢 {current_player.mention}, choose a position (1-9):")
+
+            try:
+                msg = await self.bot.wait_for('message', timeout=30.0, check=check)
+            except asyncio.TimeoutError:
+                return await ctx.send(f"⏰ Time's up! {current_player.mention} didn't respond. Game over.")
+
+            pos = int(msg.content) - 1
+            if not 0 <= pos <= 8 or board[pos] != ":white_large_square:":
+                await ctx.send("⚠️ Invalid move. That spot is already taken or out of bounds.")
+                continue
+
+            board[pos] = players[current_player]
+
+            # Update the board
+            embed.description = f"{ctx.author.mention} vs {opponent.mention}\n\n{format_board()}"
+            embed.set_footer(text=f"Turn: {opponent.display_name if current_player == ctx.author else ctx.author.display_name}")
+            await game_msg.edit(embed=embed)
+
+            # Win checking
+            win_combos = [(0,1,2),(3,4,5),(6,7,8),(0,3,6),(1,4,7),(2,5,8),(0,4,8),(2,4,6)]
+            for x, y, z in win_combos:
+                if board[x] == board[y] == board[z] != ":white_large_square:":
+                    return await ctx.send(f"🏆 {current_player.mention} wins the game! Congrats!!! 🎉")
+
+            # Switch player
+            current_player = opponent if current_player == ctx.author else ctx.author
+
+            await ctx.send("🤝 It's a draw! Great match.")
+
+
     @commands.command(help="Play Rock Paper Scissors with the bot")
     async def rps(self, ctx, choice: str = None):
         options = ['rock', 'paper', 'scissors']
@@ -80,69 +142,180 @@ class Game(commands.Cog):
         await asyncio.sleep(1)
         await flipping.edit(content=None, embed=embed)
 
+    
+    @commands.command(name="trivia", help="Play a trivia game with the bot")    
+    async def trivia(self, ctx):
+        questions = [
+            {
+                "question": "What is the capital of France?",
+                "options": ["A) Berlin", "B) Madrid", "C) Paris", "D) Rome"],
+                "answer": "C"
+            },
+            {
+                "question": "Which planet is known as the Red Planet?",
+                "options": ["A) Earth", "B) Mars", "C) Jupiter", "D) Venus"],
+                "answer": "B"
+            },
+            {
+                "question": "Who wrote 'Hamlet'?",
+                "options": ["A) Charles Dickens", "B) William Shakespeare", "C) J.K. Rowling", "D) Mark Twain"],
+                "answer": "B"
+            },
+            {
+                "question": "Which language is used for web apps?",
+                "options": ["A) Python", "B) Java", "C) JavaScript", "D) C++"],
+                "answer": "C"
+            },
+            {
+                "question": "What is the smallest prime number?",
+                "options": ["A) 0", "B) 1", "C) 2", "D) 3"],
+                "answer": "C"
+            },
+            {
+                "question": "Which element has the chemical symbol 'O'?",
+                "options": ["A) Gold", "B) Oxygen", "C) Osmium", "D) Oxide"],
+                "answer": "B"
+            },
+            {
+                "question": "Who painted the Mona Lisa?",
+                "options": ["A) Vincent van Gogh", "B) Pablo Picasso", "C) Leonardo da Vinci", "D) Claude Monet"],
+                "answer": "C"
+            },
+            {
+                "question": "In which year did the Titanic sink?",
+                "options": ["A) 1912", "B) 1921", "C) 1905", "D) 1899"],
+                "answer": "A"
+            },
+            {
+                "question": "Which video game features the character Master Chief?",
+                "options": ["A) Halo", "B) Call of Duty", "C) Destiny", "D) Apex Legends"],
+                "answer": "A"
+            },
+            {
+                "question": "What is the hardest natural substance on Earth?",
+                "options": ["A) Steel", "B) Quartz", "C) Diamond", "D) Obsidian"],
+                "answer": "C"
+            },
+            {
+                "question": "Which continent has the most countries?",
+                "options": ["A) Asia", "B) Africa", "C) Europe", "D) South America"],
+                "answer": "B"
+            },
+            {
+                "question": "What is the square root of 144?",
+                "options": ["A) 11", "B) 12", "C) 13", "D) 14"],
+                "answer": "B"
+            },
+            {
+                "question": "Which programming language is known for its snake logo?",
+                "options": ["A) Ruby", "B) C++", "C) Python", "D) Perl"],
+                "answer": "C"
+            },
+            {
+                "question": "What is the longest river in the world?",
+                "options": ["A) Amazon", "B) Yangtze", "C) Nile", "D) Mississippi"],
+                "answer": "C"
+            },
+            {
+                "question": "What does HTTP stand for?",
+                "options": ["A) HyperText Transfer Protocol", "B) HighText Transfer Protocol", "C) HyperText Transmission Process", "D) High-Tech Transfer Protocol"],
+                "answer": "A"
+            },
+            {
+                "question": "Which movie features the quote, 'I am your father'?",
+                "options": ["A) Harry Potter", "B) The Matrix", "C) Star Wars", "D) Lord of the Rings"],
+                "answer": "C"
+            },
+            {
+                "question": "Which animal can sleep for up to 3 years?",
+                "options": ["A) Snail", "B) Bear", "C) Koala", "D) Sloth"],
+                "answer": "A"
+            },
+            {
+                "question": "What planet has the most moons?",
+                "options": ["A) Earth", "B) Mars", "C) Jupiter", "D) Saturn"],
+                "answer": "D"
+            },
+            {
+                "question": "Who invented the World Wide Web?",
+                "options": ["A) Bill Gates", "B) Steve Jobs", "C) Tim Berners-Lee", "D) Alan Turing"],
+                "answer": "C"
+            },
+            {
+                "question": "Which country gifted the Statue of Liberty to the USA?",
+                "options": ["A) England", "B) Germany", "C) France", "D) Spain"],
+                "answer": "C"
+            },
+            {
+                "question": "What is the rarest blood type?",
+                "options": ["A) O+", "B) AB-", "C) A-", "D) B+"],
+                "answer": "B"
+            },
+            {
+                "question": "What is the main ingredient in guacamole?",
+                "options": ["A) Tomato", "B) Avocado", "C) Onion", "D) Cucumber"],
+                "answer": "B"
+            },
+            {
+                "question": "Which game holds the title for best-selling of all time (as of 2024)?",
+                "options": ["A) GTA V", "B) Minecraft", "C) Tetris", "D) Fortnite"],
+                "answer": "B"
+            },
+            {
+                "question": "What is the tallest mountain in the world?",
+                "options": ["A) K2", "B) Everest", "C) Kilimanjaro", "D) Elbrus"],
+                "answer": "B"
+            },
+            {
+                "question": "Which organ is the heaviest in the human body?",
+                "options": ["A) Heart", "B) Brain", "C) Liver", "D) Lungs"],
+                "answer": "C"
+            },
+            {
+                "question": "What is the name of Thor’s hammer?",
+                "options": ["A) Stormbreaker", "B) Excalibur", "C) Gungnir", "D) Mjolnir"],
+                "answer": "D"
+            },
+            {
+                "question": "How many legs does a spider have?",
+                "options": ["A) 6", "B) 8", "C) 10", "D) 12"],
+                "answer": "B"
+            },
+            {
+                "question": "Which color absorbs the most heat?",
+                "options": ["A) White", "B) Yellow", "C) Black", "D) Red"],
+                "answer": "C"
+            },
+            {
+                "question": "What year was YouTube founded?",
+                "options": ["A) 2003", "B) 2005", "C) 2007", "D) 2010"],
+                "answer": "B"
+            }
 
 
-    @commands.command(name="tictactoe", help="Play a Tic-Tac-Toe game with another user.")
-    async def tictactoe(self, ctx, opponent: nextcord.Member = None):
-        if opponent is None:
-            return await ctx.send("❗ You must mention someone to play with. Usage: `!tictactoe @user`")
-
-        if opponent.bot or opponent == ctx.author:
-            return await ctx.send("❌ Invalid opponent. Choose a human other than yourself.")
-
-        board = [":white_large_square:"] * 9
-        current_player = ctx.author
-        players = {ctx.author: "❌", opponent: "⭕"}
-
-        def format_board():
-            rows = []
-            for i in range(0, 9, 3):
-                rows.append(" ".join(board[i:i+3]))
-            return "\n".join(rows)
-
+        ]
+    
+        question = random.choice(questions)
         embed = nextcord.Embed(
-            title="🎮 Tic-Tac-Toe",
-            description=f"{ctx.author.mention} vs {opponent.mention}\n\n{format_board()}",
-            color=nextcord.Color.gold()
+            title="🧠 Trivia Time!",
+            description=f"**{question['question']}**\n\n" + "\n".join(question["options"]),
+            color=nextcord.Color.blurple()
         )
-        embed.set_footer(text="Type a number (1-9) to mark your move.")
-        game_msg = await ctx.send(embed=embed)
-
+        embed.set_footer(text="Reply with A, B, C, or D. You have 10 seconds!")
+    
+        await ctx.send(embed=embed)
+    
         def check(m):
-            return m.author == current_player and m.channel == ctx.channel and m.content.isdigit()
-
-        for turn in range(9):
-            await ctx.send(f"🔢 {current_player.mention}, choose a position (1-9):")
-
-            try:
-                msg = await self.bot.wait_for('message', timeout=30.0, check=check)
-            except asyncio.TimeoutError:
-                return await ctx.send(f"⏰ Time's up! {current_player.mention} didn't respond. Game over.")
-
-            pos = int(msg.content) - 1
-            if not 0 <= pos <= 8 or board[pos] != ":white_large_square:":
-                await ctx.send("⚠️ Invalid move. That spot is already taken or out of bounds.")
-                continue
-
-            board[pos] = players[current_player]
-
-            # Update the board
-            embed.description = f"{ctx.author.mention} vs {opponent.mention}\n\n{format_board()}"
-            embed.set_footer(text=f"Turn: {opponent.display_name if current_player == ctx.author else ctx.author.display_name}")
-            await game_msg.edit(embed=embed)
-
-            # Win checking
-            win_combos = [(0,1,2),(3,4,5),(6,7,8),(0,3,6),(1,4,7),(2,5,8),(0,4,8),(2,4,6)]
-            for x, y, z in win_combos:
-                if board[x] == board[y] == board[z] != ":white_large_square:":
-                    return await ctx.send(f"🏆 {current_player.mention} wins the game!")
-
-            # Switch player
-            current_player = opponent if current_player == ctx.author else ctx.author
-
-        await ctx.send("🤝 It's a draw! Great match.")
-
-
+            return m.author == ctx.author and m.channel == ctx.channel and m.content.upper() in ['A', 'B', 'C', 'D']
+    
+        try:
+            msg = await self.bot.wait_for("message", check=check, timeout=20.0)
+            if msg.content.upper() == question["answer"]:
+                await ctx.send(f"✅ Correct, {ctx.author.mention}!You have given the right answer. 🎉")
+            else:
+                await ctx.send(f"❌ Oops! The correct answer was **{question['answer']}**.You should be careful next time.")
+        except asyncio.TimeoutError:
+            await ctx.send(f"⌛ Time's up! The correct answer was **{question['answer']}**.")      
 
 def setup(bot):
     bot.add_cog(Game(bot))
