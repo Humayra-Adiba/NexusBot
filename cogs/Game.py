@@ -455,6 +455,38 @@ class Game(commands.Cog):
 
 
 
+    @commands.command(name="typingrace", help="Race to type a sentence the fastest!")
+    async def typingrace(self, ctx):
+        sentences = [
+            "The quick brown fox jumps over the lazy dog.",
+            "Discord bots are fun to build and play with.",
+            "Typing speed is a cool skill to practice.",
+            "I love programming in Python with Nextcord.",
+            "Fast fingers make a big difference here!"
+        ]
+
+        sentence = random.choice(sentences)
+
+        embed = nextcord.Embed(
+            title="⌨ Typing Race Challenge!",
+            description=f"Type this sentence **exactly** as fast as you can:\n\n```{sentence}```",
+            color=nextcord.Color.blue()
+        )
+        embed.set_footer(text="First correct message wins! You have 30 seconds.")
+
+        await ctx.send(embed=embed)
+
+        def check(m):
+            return m.channel == ctx.channel and m.content == sentence
+
+        try:
+            msg = await self.bot.wait_for("message", timeout=30.0, check=check)
+            await ctx.send(f"🏆 {msg.author.mention} wins! Well done.Congrats!!! 🎉 You typed it correctly in {round((time.time() - msg.created_at.timestamp()) * 1000)} ms.")
+        except asyncio.TimeoutError:
+            await ctx.send(f"⏰ Time's up! Nobody typed it correctly. The sentence was:\n```{sentence}```")
+
+
+
 def setup(bot):
     bot.add_cog(Game(bot))
 
