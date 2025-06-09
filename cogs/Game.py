@@ -2,6 +2,8 @@ import nextcord
 from nextcord.ext import commands
 import random
 import asyncio
+import operator
+import time
 
 class Game(commands.Cog):
     def __init__(self, bot):
@@ -414,6 +416,42 @@ class Game(commands.Cog):
                 await ctx.send(f"❌ Wrong! The correct word was **{word}**.Better luck next time!")
         except asyncio.TimeoutError:
             await ctx.send(f"⏰ Time's up! The word was **{word}**.Be careful next time!")
+
+
+    @commands.command(name="mathquiz", help="Solve a random math problem!")
+    async def mathquiz(self, ctx):
+        operations = {
+            "+": operator.add,
+            "-": operator.sub,
+            "*": operator.mul
+        }
+
+        op_symbol = random.choice(list(operations.keys()))
+        num1 = random.randint(10, 1000)
+        num2 = random.randint(1,50) if op_symbol == "*" else random.randint(10, 99)
+        correct_answer = operations[op_symbol](num1, num2)
+
+        embed = nextcord.Embed(
+            title="🧮 Math Quiz",
+            description=f"**Solve:** `{num1} {op_symbol} {num2}`\n⏳ You have 20 seconds!",
+            color=nextcord.Color.teal()
+        )
+        embed.set_footer(text="Type your answer in chat!")
+
+        await ctx.send(embed=embed)
+
+        def check(m):
+            return m.author == ctx.author and m.channel == ctx.channel and m.content.isdigit()
+
+        try:
+            msg = await self.bot.wait_for("message", timeout=20.0, check=check)
+            if int(msg.content) == correct_answer:
+                await ctx.send(f"✅ Correct! `{num1} {op_symbol} {num2} = {correct_answer}` is right. Congrats!!! 🎉")
+            else:
+                await ctx.send(f"❌ Wrong! The correct answer was `{correct_answer}`.Better luck next time!")
+        except asyncio.TimeoutError:
+            await ctx.send(f"⏰ Time's up! The correct answer was `{correct_answer}`.Be careful next time!")
+
 
 
 
