@@ -71,27 +71,44 @@ class Game(commands.Cog):
             await ctx.send("🤝 It's a draw! Great match.")
 
 
-    @commands.command(help="Play Rock Paper Scissors with the bot")
+    @commands.command(name="rps", help="Play Rock Paper Scissors with the bot.")
     async def rps(self, ctx, choice: str = None):
-        options = ['rock', 'paper', 'scissors']
-        if choice not in options:
-            return await ctx.send("❌ Please choose rock, paper, or scissors. Example: `!rps rock`")
-        
-        bot_choice = random.choice(options)
-        outcome = {
-            ('rock', 'scissors'): 'You win!',
-            ('scissors', 'paper'): 'You win!',
-            ('paper', 'rock'): 'You win!',
-            (choice, choice): 'It\'s a tie!',
-        }.get((choice, bot_choice), 'You lose!')
+        options = {
+            "rock": "🪨 Rock",
+            "paper": "📄 Paper",
+            "scissors": "✂️ Scissors"
+        }
 
+        if choice is None or choice.lower() not in options:
+            return await ctx.send(
+                "❌ Please choose rock, paper, or scissors.\n \n"
+                "Example: `!rps rock`"
+            )
+
+        user_choice = choice.lower()
+        bot_choice = random.choice(list(options.keys()))
+
+        # Determine outcome
+        if user_choice == bot_choice:
+            result = "🤝 It's a tie!"
+        elif (user_choice == "rock" and bot_choice == "scissors") or \
+            (user_choice == "scissors" and bot_choice == "paper") or \
+            (user_choice == "paper" and bot_choice == "rock"):
+            result = "✅ You win!"
+        else:
+            result = "💀 You lose!"
+
+        # Embed for better UX
         embed = nextcord.Embed(
-            title="🪨📄✂️ Rock Paper Scissors!",
-            color=nextcord.Color.purple()
+            title="🎮 Rock Paper Scissors",
+            description="Let's see who wins...",
+            color=nextcord.Color.blurple()
         )
-        embed.add_field(name="Your Choice", value=choice.capitalize())
-        embed.add_field(name="Bot's Choice", value=bot_choice.capitalize())
-        embed.add_field(name="Result", value=outcome)
+        embed.add_field(name="**🧑 Your Choice**", value=f"{options[user_choice]}\n\u200b", inline=True)
+        embed.add_field(name="**🤖 Bot's Choice**", value=f"{options[bot_choice]}\n\u200b", inline=True)
+        embed.add_field(name="**🏁 Result**", value=f"{result}\n\u200b", inline=True)
+        embed.set_thumbnail(url="https://cdn-icons-png.flaticon.com/512/616/616555.png")
+        embed.set_footer(text="Thanks for playing RPS!")
         await ctx.send(embed=embed)
 
 
@@ -299,8 +316,8 @@ class Game(commands.Cog):
     
         question = random.choice(questions)
         embed = nextcord.Embed(
-            title="🧠 Trivia Time!",
-            description=f"**{question['question']}**\n\n" + "\n".join(question["options"]),
+            title="🧠 Trivia Time! " "\n",
+            description=f"**{question['question']}**\n\n" + "\n \n".join(question["options"]),
             color=nextcord.Color.blurple()
         )
         embed.set_footer(text="Reply with A, B, C, or D. You have 10 seconds!")
@@ -484,6 +501,47 @@ class Game(commands.Cog):
             await ctx.send(f"🏆 {msg.author.mention} wins! Well done.Congrats!!! 🎉 You typed it correctly in {round((time.time() - msg.created_at.timestamp()) * 1000)} ms.")
         except asyncio.TimeoutError:
             await ctx.send(f"⏰ Time's up! Nobody typed it correctly. The sentence was:\n```{sentence}```")
+
+
+    @commands.command(name="wouldyourather", help="Get a fun 'Would You Rather' question!")
+    async def wouldyourather(self, ctx):
+        questions = [
+                ("Always speak the truth", "Always keep secrets"),
+                ("Be trusted by everyone", "Be loved by everyone"),
+                ("Have a loyal friend", "Be a loyal friend"),
+                ("Know someone’s true feelings", "Let them know yours"),
+                ("Lose all your money", "Lose all your friends"),
+                ("Be honest and hurt someone", "Lie to protect their feelings"),
+                ("Have a friend who tells harsh truths", "Have a friend who always agrees with you"),
+                ("Be honest and misunderstood", "Hide your truth and be liked"),
+                ("Never lie again", "Never trust again"),
+                ("Love someone who doesn't love you", "Be loved by someone you don't love"),
+                ("Always win arguments", "Always win games"),
+                ("Be rich but sad", "Be happy but poor"),
+                ("Fall in love with your best friend", "Fall in love with a stranger"),
+                ("Be in a long-distance relationship", "Live together but rarely talk"),
+                ("Love someone who doesn’t love you back", "Be loved by someone you don’t love"),
+                ("Find true love but lose them", "Never find true love but avoid heartbreak"),
+                ("Be with someone who makes you laugh", "Be with someone who understands your silence"),
+                ("Confess your love and be rejected", "Stay silent and wonder forever"),
+                ("Love once deeply", "Love many people lightly"),
+                ("Be in a relationship with no trust", "Be alone but at peace"),
+                ("Marry your soulmate and be poor", "Marry someone rich without love"),
+                ("Lose all memories of your love", "Keep the memories but never see them again")
+            ]
+
+        option1, option2 = random.choice(questions)
+
+        embed = nextcord.Embed(
+            title="🤔 Would You Rather...",
+            description=f"🔵 {option1}\n \n🔴 {option2}",
+            color=nextcord.Color.purple()
+        )
+        embed.set_footer(text="React with 🔵 or 🔴 to choose!")
+
+        message = await ctx.send(embed=embed)
+        await message.add_reaction("🔵")
+        await message.add_reaction("🔴")
 
 
 
