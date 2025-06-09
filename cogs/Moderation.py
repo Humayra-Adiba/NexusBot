@@ -99,6 +99,44 @@ class Moderation(commands.Cog):
         except nextcord.Forbidden:
             await ctx.send(f"❌ Could not send a message to {user.mention}. They might have DMs disabled.")
 
+    @commands.command(help="Warn a user with a reason.")
+    @commands.has_permissions(manage_messages=True)
+    async def warn(self, ctx, member: nextcord.Member, *, reason="No reason provided."):
+        # Role hierarchy check
+        if member.top_role >= ctx.author.top_role and ctx.author != ctx.guild.owner:
+            return await ctx.send("❌ You can't warn this user because their role is higher or equal to yours.")
+        
+        if member == ctx.author:
+            return await ctx.send("❌ You can't warn yourself.")
+
+        if member == ctx.guild.me:
+            return await ctx.send("❌ I can't warn myself!")
+
+        # Send warning embed to channel
+        embed = nextcord.Embed(
+            title="⚠️ User Warned",
+            description=f"{member.mention} has been warned.",
+            color=nextcord.Color.orange()
+        )
+        embed.add_field(name="Reason", value=reason, inline=False)
+        embed.add_field(name="Warned by", value=ctx.author.mention, inline=True)
+        embed.set_footer(text=f"User ID: {member.id}")
+        await ctx.send(embed=embed)
+
+        # Try sending DM to the warned user
+        try:
+            dm_embed = nextcord.Embed(
+                title="⚠️ You were Warned",
+                description=f"You were warned in **{ctx.guild.name}**.",
+                color=nextcord.Color.red()
+            )
+            dm_embed.add_field(name="Reason", value=reason, inline=False)
+            dm_embed.add_field(name="Warned by", value=ctx.author.name, inline=True)
+            await member.send(embed=dm_embed)
+        except nextcord.Forbidden:
+            await ctx.send("⚠️ Couldn't DM the user.")
+
+
 def setup(bot):
     bot.add_cog(Moderation(bot))
     print("Moderation cog loaded.")
