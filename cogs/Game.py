@@ -317,6 +317,106 @@ class Game(commands.Cog):
         except asyncio.TimeoutError:
             await ctx.send(f"⌛ Time's up! The correct answer was **{question['answer']}**.")      
 
+
+
+    @commands.command(name="hangman", help="Play a game of Hangman with the bot")
+    async def hangman(self, ctx):
+        words = [
+            "python", "discord", "hangman", "computer", "programming","game", "bot", "music", "artificial", "intelligence",
+            "machine", "learning", "data", "science", "algorithm", "network", "security", "database", "software",
+            "developer", "keyboard", "internet", "science", "technology"
+        ]
+
+        word = random.choice(words).upper()
+        guessed = []
+        attempts = 6
+        display = ["_" if letter.isalpha() else letter for letter in word]
+
+        def render_word():
+            return " ".join(display)
+
+        def get_embed():
+            embed = nextcord.Embed(
+                title="🎯 Hangman Game",
+                description=f"```{render_word()}```",
+                color=nextcord.Color.blurple()
+            )
+            embed.add_field(name="🧪 Attempts Left", value=str(attempts), inline=True)
+            embed.add_field(name="🔠 Guessed Letters", value=", ".join(guessed) or "None", inline=True)
+            embed.set_footer(text="Type a single letter. You have 60 seconds per guess.")
+            return embed
+
+        await ctx.send(embed=get_embed())
+
+        while attempts > 0 and "_" in display:
+            def check(m):
+                return (
+                    m.author == ctx.author and 
+                    m.channel == ctx.channel and 
+                    m.content.isalpha() and 
+                    len(m.content) == 1
+                )
+
+            try:
+                msg = await self.bot.wait_for("message", timeout=60.0, check=check)
+                guess = msg.content.upper()
+
+                if guess in guessed:
+                    await ctx.send(f"🔁 You already guessed `{guess}`.")
+                    continue
+
+                guessed.append(guess)
+
+                if guess in word:
+                    for i, letter in enumerate(word):
+                        if letter == guess:
+                            display[i] = guess
+                    await ctx.send(f"✅ Nice! `{guess}` is in the word.")
+                else:
+                    attempts -= 1
+                    await ctx.send(f"❌ Nope! `{guess}` is not in the word. Attempts left: {attempts}")
+
+                await ctx.send(embed=get_embed())
+
+            except asyncio.TimeoutError:
+                await ctx.send("⏰ Time's up! Game over.")
+                return
+
+        if "_" not in display:
+            await ctx.send(f"🎉 Congratulations {ctx.author.mention}! You guessed the word: **{word}**")
+        else:
+            await ctx.send(f"💀 You lost! The word was **{word}**. Better luck next time!")
+
+
+    @commands.command(name="unscramble", help="Unscramble the jumbled word!")
+    async def unscramble(self, ctx):
+        words = ["python", "discord", "game", "keyboard", "internet", "science", "computer", "programming", "bangladesh", "bot", "kingdom", "developer","joke", "honey",  "artificial", "intelligence", "machine", "learning", "data", "science", "algorithm", "network", "security", "database", "software"]
+        word = random.choice(words)
+        scrambled = ''.join(random.sample(word, len(word)))
+
+        embed = nextcord.Embed(
+            title="🔤 Unscramble the Word!",
+            description=f"**Jumbled Word:** `{scrambled}`\n\n⏳ You have 30 seconds to guess!",
+            color=nextcord.Color.orange()
+        )
+        embed.set_footer(text="Type your guess in chat!")
+
+        await ctx.send(embed=embed)
+
+        def check(m):
+            return m.author == ctx.author and m.channel == ctx.channel
+
+        try:
+            msg = await self.bot.wait_for("message", timeout=30.0, check=check)
+            if msg.content.lower() == word.lower():
+                await ctx.send(f"✅ Correct! The word was **{word}**.Congrats!!! 🎉")
+            else:
+                await ctx.send(f"❌ Wrong! The correct word was **{word}**.Better luck next time!")
+        except asyncio.TimeoutError:
+            await ctx.send(f"⏰ Time's up! The word was **{word}**.Be careful next time!")
+
+
+
 def setup(bot):
     bot.add_cog(Game(bot))
 
