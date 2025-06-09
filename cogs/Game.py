@@ -320,7 +320,7 @@ class Game(commands.Cog):
             description=f"**{question['question']}**\n\n" + "\n \n".join(question["options"]),
             color=nextcord.Color.blurple()
         )
-        embed.set_footer(text="Reply with A, B, C, or D. You have 10 seconds!")
+        embed.set_footer(text="Reply with A, B, C, or D. You have 20 seconds!")
     
         await ctx.send(embed=embed)
     

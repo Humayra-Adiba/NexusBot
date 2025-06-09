@@ -7,14 +7,28 @@ class Greetings(commands.Cog):
         self.bot = bot
 
 
-    #Commands
-    @commands.command()
-    async def nexusbot(self,ctx):
-        await ctx.send("Hi there👋, I am NexusBot!")
+    @commands.command(help="Say hello to NexusBot!")
+    async def nexusbot(self, ctx):
+        embed = nextcord.Embed(
+            title="🤖 **Meet NexusBot!**",
+            description="Hi there 👋, I am **NexusBot** – your helpful Discord assistant!",
+            color=nextcord.Color.blue()
+        )
+        embed.set_thumbnail(url="https://cdn-icons-png.flaticon.com/512/4712/4712027.png")
+        embed.set_footer(text="Developed with 💙 using Nextcord")
+        await ctx.send(embed=embed)
 
-    @commands.command()
+    
+    @commands.command(help="Get a warm greeting message!")
     async def ping(self, ctx):
-        await ctx.send("Hello, Do you need help? 😄")
+        embed = nextcord.Embed(
+            title="📡 Need Help?",
+            description="Hello! 😄\nI'm here to assist you.\nUse `!help` to see all my commands!\n  (Also I have several Slash commands, you can explore it)",
+            color=nextcord.Color.purple()
+        )
+        embed.set_thumbnail(url="https://cdn-icons-png.flaticon.com/512/4712/4712040.png")
+        embed.set_footer(text="NexusBot at your service!")
+        await ctx.send(embed=embed)
 
 
     #Events

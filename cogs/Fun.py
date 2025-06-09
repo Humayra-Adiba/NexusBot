@@ -2,6 +2,7 @@
 import aiohttp
 import nextcord
 from nextcord.ext import commands
+import json
 
 class Fun(commands.Cog):
     def __init__(self, bot):
@@ -71,19 +72,29 @@ class Fun(commands.Cog):
         embed.set_footer(text=f"From r/{data['subreddit']} • NexusBot ✨")
         await ctx.send(embed=embed)
 
+
     @commands.command(help="Get a piece of advice.")
     async def advice(self, ctx):
         async with aiohttp.ClientSession() as session:
             async with session.get("https://api.adviceslip.com/advice") as resp:
                 if resp.status != 200:
                     return await ctx.send("🧠 Couldn't fetch advice.")
-                data = await resp.json()
+
+                try:
+                    text = await resp.text()
+                    data = json.loads(text)
+                except Exception as e:
+                    return await ctx.send(f"❌ Failed to parse advice. ({e})")
+
         embed = nextcord.Embed(
-            title="📌 Advice for you",
+            title="📌 Advice for You....",
             description=data["slip"]["advice"],
             color=nextcord.Color.green()
         )
+        embed.set_thumbnail(url="https://cdn-icons-png.flaticon.com/512/1040/1040204.png")
+        embed.set_footer(text="NexusBot • Remember, advice is just a suggestion! 💡")
         await ctx.send(embed=embed)
+
 
 
     @commands.command(help="Get a random quote.")
