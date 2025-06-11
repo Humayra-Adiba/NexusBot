@@ -36,19 +36,6 @@ class InfoCommands(commands.Cog):
         embed.add_field(name="Created On", value=guild.created_at.strftime("%Y-%m-%d"), inline=False)
         await interaction.response.send_message(embed=embed)
 
-    @nextcord.slash_command(name="botstats", description="Display bot statistics")
-    async def botstats(self, interaction: Interaction):
-        uptime = time.time() - start_time
-        uptime_str = str(datetime.timedelta(seconds=int(uptime)))
-        embed = nextcord.Embed(title="📊 Bot Statistics", color=nextcord.Color.purple())
-        embed.add_field(name="Uptime", value=uptime_str, inline=True)
-        embed.add_field(name="Latency", value=f"{round(self.bot.latency * 1000)}ms", inline=True)
-        embed.add_field(name="Servers", value=len(self.bot.guilds), inline=True)
-        embed.add_field(name="Users", value=len(set(self.bot.get_all_members())), inline=True)
-        embed.add_field(name="Python", value=platform.python_version(), inline=True)
-        embed.add_field(name="RAM Usage", value=f"{psutil.Process().memory_info().rss // 1024**2} MB", inline=True)
-        await interaction.response.send_message(embed=embed)
-
     @nextcord.slash_command(name="roles", description="List all server roles")
     async def roles(self, interaction: Interaction):
         roles = [role.name for role in interaction.guild.roles if role.name != "@everyone"]
@@ -62,7 +49,6 @@ class InfoCommands(commands.Cog):
         embed = nextcord.Embed(title=f"{user.name}'s Avatar", color=nextcord.Color.blurple())
         embed.set_image(url=user.display_avatar.url)
         await interaction.response.send_message(embed=embed)
-
 
 
 def setup(bot):

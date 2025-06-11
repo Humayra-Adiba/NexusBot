@@ -70,5 +70,7 @@ class Greet(commands.Cog):
                 if user:
                     await message.channel.send(f"🎂 Happy Birthday {user.mention}!")
 
+
+
 def setup(bot):
     bot.add_cog(Greet(bot))
