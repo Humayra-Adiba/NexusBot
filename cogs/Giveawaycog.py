@@ -4,7 +4,7 @@ import asyncio
 import random
 from datetime import datetime, timedelta
 
-class Giveaway(commands.Cog):
+class Giveawaycog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -79,4 +79,4 @@ class Giveaway(commands.Cog):
             await ctx.send(f"⚠️ An error occurred: `{error}`")
 
 def setup(bot):
-    bot.add_cog(Giveaway(bot))
+    bot.add_cog(Giveawaycog(bot))

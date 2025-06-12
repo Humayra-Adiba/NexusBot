@@ -1,7 +1,7 @@
 import nextcord
 from nextcord.ext import commands
 
-class Poll(commands.Cog):
+class Pollcog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -35,4 +35,4 @@ class Poll(commands.Cog):
         await poll_msg.add_reaction("3️⃣")
 
 def setup(bot):
-    bot.add_cog(Poll(bot))
+    bot.add_cog(Pollcog(bot))

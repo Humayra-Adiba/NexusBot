@@ -30,7 +30,9 @@ class Utility(commands.Cog):
             embed = nextcord.Embed(title="⏳ Countdown", color=0x00FFFF)
             embed.add_field(name="Event", value=event, inline=False)
             embed.add_field(name="Time Left", value=f"{days} days, {hours} hours, {minutes} minutes", inline=False)
-
+            embed.set_footer(text=f"Countdown to {event} on {event_date.strftime('%Y-%m-%d')}")
+            embed.set_thumbnail(url="https://cdn-icons-png.flaticon.com/512/2662/2662503.png")
+            embed.timestamp = interaction.created_at
             await interaction.response.send_message(embed=embed)
         except ValueError:
             await interaction.response.send_message("Invalid date format. Use YYYY-MM-DD.", ephemeral=True)
