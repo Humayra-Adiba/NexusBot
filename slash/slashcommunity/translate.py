@@ -23,6 +23,8 @@ class Translate(commands.Cog):
             )
             embed.add_field(name="Original", value=text, inline=False)
             embed.add_field(name=f"Translated ({lang})", value=result.text, inline=False)
+            embed.set_footer(text=f"Translated from {result.src} to {lang} using Google Translate API ✨ NexusBot")
+            embed.set_thumbnail(url="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=facearea&w=256&q=80")
             await interaction.response.send_message(embed=embed)
         except Exception as e:
             await interaction.response.send_message(f"❌ Translation failed: {e}", ephemeral=True)
