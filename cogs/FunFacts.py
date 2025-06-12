@@ -135,6 +135,63 @@ class Fun(commands.Cog):
         await ctx.send(embed=embed)
 
 
+
+    def __init__(self, bot):
+        self.bot = bot
+        self.current_number = 0
+        self.last_user = None
+        self.streak = 0
+
+    @commands.command(name="count", help="Start counting game. Use `!count <number>` to count.")
+    async def count(self, ctx, number: int = None):
+        # Ignore messages from bots
+        if ctx.author.bot:
+            return
+
+        if number is None:
+            await ctx.send("❗ Please provide a number to count. Usage: `!count <number>`")
+            return
+
+        # Check for correct next number
+        if number == self.current_number + 1:
+            # Check if same person counted twice
+            if ctx.author == self.last_user:
+                await ctx.send("❌ You can't count twice in a row!")
+                return
+
+            self.current_number += 1
+            self.last_user = ctx.author
+            self.streak += 1
+
+            embed = nextcord.Embed(
+                title="✅ Correct Count!",
+                description=f"{ctx.author.mention} counted **{number}** correctly!",
+                color=nextcord.Color.green()
+            )
+            embed.add_field(name="🔥 Streak", value=str(self.streak), inline=True)
+            embed.add_field(name="📈 Next Number", value=str(self.current_number + 1), inline=True)
+            embed.set_thumbnail(url=ctx.author.avatar.url if ctx.author.avatar else None)
+            embed.set_footer(text="Keep counting together!")
+            await ctx.send(embed=embed)
+        else:
+            # Wrong number
+            embed = nextcord.Embed(
+                title="❌ Wrong Count!",
+                description=f"{ctx.author.mention} ruined the streak at **{number}** 😢",
+                color=nextcord.Color.red()
+            )
+            embed.add_field(name="💔 Final Streak", value=str(self.streak), inline=True)
+            embed.add_field(name="🔄 Game Restarted", value="Back to 1", inline=True)
+            embed.set_thumbnail(url=ctx.author.avatar.url if ctx.author.avatar else None)
+            await ctx.send(embed=embed)
+
+            # Reset
+            self.current_number = 0
+            self.last_user = None
+            self.streak = 0
+
+
+
 def setup(bot):
     bot.add_cog(Fun(bot))
     print("Fun cog loaded.")
