@@ -8,7 +8,7 @@ class Giveawaycog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="giveaway", help="🎉 Start a giveaway\nUsage: !giveaway <duration> <unit> <winners> <prize>")
+    @commands.command(name="giveaway", help="🎉 Start a giveaway!!!\nUsage: !giveaway <duration> <unit> <winners> <prize>")
     async def giveaway(self, ctx, time: int, unit: str, winners: int, *, prize: str):
         # Validation
         unit = unit.lower()
@@ -80,3 +80,4 @@ class Giveawaycog(commands.Cog):
 
 def setup(bot):
     bot.add_cog(Giveawaycog(bot))
+    print("Giveawaycog loaded successfully!")

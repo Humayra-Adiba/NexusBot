@@ -560,6 +560,18 @@ class Game(commands.Cog):
             "What’s the most embarrassing thing you’ve done in front of someone you like?",
             "Have you ever had a crush on a teacher? 👀",
             "What’s a secret talent you have… or think you have?"
+            "What’s the most embarrassing thing you’ve done in public?",
+            "What’s the most embarrassing thing you’ve done in front of your crush?",
+            "What’s the most embarrassing thing you’ve done in front of your friends?",
+            "What’s the most embarrassing thing you’ve done in front of your family?",
+            "Who is the person you would never want to see again?",
+            "How many crushes have you had in your life?",
+            "when was the last time you cried and why?",
+            "Where do you see yourself in 5 years?",
+            "Do you have ever hugged someone ?",
+            "Do you have ever kissed someone ?",
+            "Do you ever hold hands with someone ?",
+            "Do you wanna marry in this time?",
         ]
 
         self.dares = [
@@ -576,6 +588,8 @@ class Game(commands.Cog):
             "Come Vc and sing a song of your choice 🎤",
             "Send your most worst handwriting in the server 🤳",
             "Act like a robot for 2 minutes in VC or messages. 🤖"
+            "Come vc , share your screen and show your facebook profile here📱",
+            "Come vc , share your screen and show your instagram profile here📱",
         ]
 
     @commands.command(name="truthORdare", help="Play Truth or Dare!!! {!truthORdare truth} or {!truthORdare dare}")
@@ -603,4 +617,4 @@ class Game(commands.Cog):
 
 def setup(bot):
     bot.add_cog(Game(bot))
-
+    print("Game cog loaded successfully!")

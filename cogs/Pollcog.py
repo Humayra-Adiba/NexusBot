@@ -36,3 +36,4 @@ class Pollcog(commands.Cog):
 
 def setup(bot):
     bot.add_cog(Pollcog(bot))
+    print("Pollcog loaded successfully!")
