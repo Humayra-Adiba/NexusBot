@@ -72,5 +72,25 @@ class Greet(commands.Cog):
 
 
 
+    @nextcord.slash_command(name="say", description="Make the bot say something")
+    async def say(
+        self,
+        interaction: Interaction,
+        message: str = SlashOption(
+            name="message",
+            description="What should the bot say?",
+            required=True
+        ),
+    ):
+        embed = nextcord.Embed(
+            title="🗣️ Message from the Bot...... ",
+            description=message,
+            color=nextcord.Color.purple()
+        )
+        embed.set_footer(text="*from your friendly bot*", icon_url=self.bot.user.display_avatar.url)
+        embed.timestamp = datetime.datetime.utcnow()
+        await interaction.response.send_message(embed=embed)
+
+
 def setup(bot):
     bot.add_cog(Greet(bot))
