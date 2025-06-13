@@ -1,6 +1,6 @@
 # NexusBot
 
-NexusBot is a modular nextcord bot built with Python, designed to enhance server interactions through customizable commands and features.
+NexusBot is a dynamic, modular nextcord bot built with Python, designed to enhance server interactions through customizable commands and features.
 
 ---
 
