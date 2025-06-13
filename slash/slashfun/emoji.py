@@ -1,23 +1,31 @@
 import nextcord
 from nextcord.ext import commands
-from nextcord import Interaction
+from nextcord import Interaction, SlashOption
 import random
 
 class EmojiCommand(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @nextcord.slash_command(name="emoji", description="Get a random emoji")
-    async def emoji(self, interaction: Interaction):
-        emojis = ["😀", "😂", "😍", "🥳", "😎", "😱", "🤖", "👻", "🔥", "🌈", "🎉", "✨", "💩", "👀", "☠️", "🤧", "🥰","😝","🤬"]
+    @nextcord.slash_command(name="emoji", description="Send a random emoji to someone!")
+    async def emoji(
+        self,
+        interaction: Interaction,
+        member: nextcord.Member = SlashOption(
+            name="user",
+            description="The member you want to send a random emoji to",
+            required=True
+        )
+    ):
+        emojis = ["😀", "😂", "😍", "🥳", "😎", "😱", "🤖", "👻", "🔥", "🌈", "🎉", "✨", "💩", "👀", "☠️", "🤧", "🥰", "😝", "🤬"]
         chosen = random.choice(emojis)
 
         embed = nextcord.Embed(
-            title="🎭 Random Emoji",
-            description=f"Here’s one for you: **{chosen}**",
+            title="🎭 Emoji Drop!!!",
+            description=f"{interaction.user.mention} sent a random emoji to {member.mention}!\n\n **{chosen}**",
             color=nextcord.Color.orange()
         )
-        embed.set_footer(text=f"Given by {interaction.user}", icon_url=interaction.user.display_avatar.url)
+        embed.timestamp = interaction.created_at
         await interaction.response.send_message(embed=embed)
 
 def setup(bot):

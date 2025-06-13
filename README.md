@@ -72,6 +72,6 @@ NexusBot/
 
 ## Contributing
 
-Contributions are welcome! Feel free to fork the repository and submit pull requests.✨
+Contributors are welcome! Feel free to fork the repository and submit pull requests ✨
 
 ---
