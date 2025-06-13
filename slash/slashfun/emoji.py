@@ -17,7 +17,7 @@ class EmojiCommand(commands.Cog):
             description=f"Here’s one for you: **{chosen}**",
             color=nextcord.Color.orange()
         )
-        embed.set_footer(text=f"Requested by {interaction.user}", icon_url=interaction.user.display_avatar.url)
+        embed.set_footer(text=f"Given by {interaction.user}", icon_url=interaction.user.display_avatar.url)
         await interaction.response.send_message(embed=embed)
 
 def setup(bot):

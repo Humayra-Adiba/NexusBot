@@ -590,6 +590,11 @@ class Game(commands.Cog):
             "Act like a robot for 2 minutes in VC or messages. 🤖"
             "Come vc , share your screen and show your facebook profile here📱",
             "Come vc , share your screen and show your instagram profile here📱",
+            "Come vc , share your screen and show your twitter profile here📱",
+            "Come vc and open your camera and show your room to the server 🏠",
+            "Show your messenger inbox to the server (screenshot) 📸",
+            "Show your instagram inbox to the server (screenshot) 📸",
+            "Share your most embarrassing photo in the server (screenshot) 📸",
         ]
 
     @commands.command(name="truthORdare", help="Play Truth or Dare!!! {!truthORdare truth} or {!truthORdare dare}")

@@ -11,23 +11,35 @@ class TruthDare(commands.Cog):
             "What’s a secret you’ve never told anyone?",
             "Have you ever lied in this server?",
             "What’s your most embarrassing memory?",
-            "Who’s your secret crush?"
+            "Who’s your secret crush?",
             "If you could change one thing about yourself, what would it be?",
             "What’s the most ridiculous thing you’ve ever done?",
             "Did you ever love anyone? 👀",
             "What’s the biggest lie you’ve ever told?",
-            "Do you have any crush in present?"
+            "Do you have any crush in present?",
             "Do you like someone in this server?",
             "What’s the most embarrassing thing you’ve done in front of someone you like?",
-            "Have you ever had a crush on a teacher? 👀 ",
+            "Have you ever had a crush on a teacher? 👀",
             "What’s a secret talent you have… or think you have?"
+            "What’s the most embarrassing thing you’ve done in public?",
+            "What’s the most embarrassing thing you’ve done in front of your crush?",
+            "What’s the most embarrassing thing you’ve done in front of your friends?",
+            "What’s the most embarrassing thing you’ve done in front of your family?",
+            "Who is the person you would never want to see again?",
+            "How many crushes have you had in your life?",
+            "when was the last time you cried and why?",
+            "Where do you see yourself in 5 years?",
+            "Do you have ever hugged someone ?",
+            "Do you have ever kissed someone ?",
+            "Do you ever hold hands with someone ?",
+            "Do you wanna marry in this time?",
         ]
 
         self.dares = [
             "Send a heart emoji to someone random in the server ❤️",
             "Say 'I like you' to the person you like",
             "Pretend to be a cat for 1 minute in voice chat 🐱",
-            "Show your Dms to the server (screenshot) 📸",
+            "Show your DMs to the server (screenshot) 📸",
             "Reveal your face in this server (photo) ☠️",
             "Change your nickname to 'Pickle' for 10 minutes 🥒",
             "Do 10 push-ups and share a video proof 💪",
@@ -35,9 +47,15 @@ class TruthDare(commands.Cog):
             "Share a funny meme in the server 😂",
             "Do an impression of your favorite character for 30 seconds 🎭",
             "Come Vc and sing a song of your choice 🎤",
-            "Send your most worst hanwriting in the server 🤳",
-            "Act like a robot for 2 minutes in VC or messages. 🤖",
-
+            "Send your most worst handwriting in the server 🤳",
+            "Act like a robot for 2 minutes in VC or messages. 🤖"
+            "Come vc , share your screen and show your facebook profile here📱",
+            "Come vc , share your screen and show your instagram profile here📱",
+            "Come vc , share your screen and show your twitter profile here📱",
+            "Come vc and open your camera and show your room to the server 🏠",
+            "Show your messenger inbox to the server (screenshot) 📸",
+            "Show your instagram inbox to the server (screenshot) 📸",
+            "Share your most embarrassing photo in the server (screenshot) 📸",
         ]
 
     @nextcord.slash_command(
