@@ -19,7 +19,10 @@ class Hug(commands.Cog):
             "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbzVtZHVsZHNkaDQ1eDE0OGd4MHBjaHBtNWhxbHVpbzJ3NzF1dnV4byZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/du8yT5dStTeMg/giphy.gif",
             "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWVhMHhsYnY5cGd1NHgzaTJjaTNkZnhvNHV0ZTc3cXR2MGhtdnZhNCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lrr9rHuoJOE0w/giphy.gif",
             "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExenc4Zms0enhmOWF4bmdmem12andhNjR6cW96cm1tcW5sb29qdTZ2ZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/wnsgren9NtITS/giphy.gif",
-            "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHQ0MDlwYnN6Y2gydnprN24yb3lndjV2MmF4Z2phemUyZzgyb3ZtdiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/JUwliZWcyDmTQZ7m9L/giphy.gif"
+            "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHQ0MDlwYnN6Y2gydnprN24yb3lndjV2MmF4Z2phemUyZzgyb3ZtdiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/JUwliZWcyDmTQZ7m9L/giphy.gif",
+            "https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3YWE2MzJvOWx3ZDZvcXduMm4ybXVmbHVnNGVudHg2MzFvdnR1OW8waSZlcD12MV9naWZzX3JlbGF0ZWQmY3Q9Zw/svXXBgduBsJ1u/giphy.gif",
+            "https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3bGZydTR2bWNrcm9tcTY0OGhsMms5cmVxYW1kemJ5N2dqeG5lZWl1dCZlcD12MV9naWZzX3JlbGF0ZWQmY3Q9Zw/143v0Z4767T15e/giphy.gif",
+
         ]
 
         gif_url = random.choice(gifs)

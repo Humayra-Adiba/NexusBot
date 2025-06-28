@@ -25,7 +25,7 @@ class Punch(commands.Cog):
         chosen = random.choice(gifs)
         embed = nextcord.Embed(
             title="🥊 Boom!",
-            description=f"{interaction.user.mention} punched {user.mention}!",
+            description=f"{interaction.user.mention} punched {user.mention}! 👊",
             color=nextcord.Color.red()
         )
         embed.set_image(url=chosen)

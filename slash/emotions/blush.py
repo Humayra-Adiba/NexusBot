@@ -7,11 +7,11 @@ class Blush(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @nextcord.slash_command(name="feed", description="Feed someone with love!")
-    async def feed(
+    @nextcord.slash_command(name="blush", description="Blushed at someone with love!")
+    async def blush(
         self,
         interaction: Interaction,
-        user: nextcord.Member = SlashOption(name="user", description="Who are you feeding?", required=True)
+        user: nextcord.Member = SlashOption(name="user", description="Who are you blushing with?", required=True)
     ):
         gifs = [
             "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGZwcDljdmdzZjBnemcwNHhkemNpMGxjNGQyeG90OGU0eGh0eXltbSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/4A9uYkyko4rSw/giphy.gif",
@@ -22,8 +22,8 @@ class Blush(commands.Cog):
         ]
         chosen = random.choice(gifs)
         embed = nextcord.Embed(
-            title="🍴 Blushing Time!",
-            description=f"{interaction.user.mention} lovingly blushed with {user.mention}!",
+            title="💫 Blushing Time!",
+            description=f"{interaction.user.mention} lovingly blushed with {user.mention}! 🥰",
             color=nextcord.Color.red()
         )
         embed.set_image(url=chosen)

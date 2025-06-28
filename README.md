@@ -14,10 +14,10 @@ NexusBot is a dynamic, modular nextcord bot built with Python, designed to enhan
 
 ## 🌟 Highlights
 
-- 🎉 **Fun & Games** – Rock-Paper-Scissors, Coin Flip, quizzes… and more.
-- 🎁 **Giveaways** – Host engaging contests with countdowns…
 - ⚙️ **Moderation Tools** – Kick, ban, clear, timeout, and more.
+- 🎁 **Giveaways** – Host engaging contests with countdowns…
 - 🗳️ **Polls & Tickets** – Stylish, interactive polls and tickets.
+- 🎉 **Fun, Emotions & Games** – Rock-Paper-Scissors, Coin Flip, quizzes… and more.
 - 🫂 **Community & Greetings** – Welcome members, celebrate birthdays…
 - 💡 **Utilities** – Translate text, set reminders, check uptime.
 - 🔀 **Modular Design** – Easy to extend with cogs & slash modules.

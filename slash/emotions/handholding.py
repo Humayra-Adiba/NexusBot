@@ -23,7 +23,7 @@ class HandHold(commands.Cog):
         chosen = random.choice(gifs)
         embed = nextcord.Embed(
             title="❤️ Holding Hands",
-            description=f"{interaction.user.mention} is holding hands with {user.mention}!",
+            description=f"{interaction.user.mention} is holding hands with {user.mention}! ✨",
             color=nextcord.Color.brand_red()
         )
         embed.set_image(url=chosen)
