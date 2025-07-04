@@ -30,6 +30,8 @@ class Punch(commands.Cog):
         )
         embed.set_image(url=chosen)
         await interaction.response.send_message(embed=embed)
+        embed.set_footer(text="Punch ~")
+        embed.timestamp = interaction.created_at
 
 def setup(bot):
     bot.add_cog(Punch(bot))

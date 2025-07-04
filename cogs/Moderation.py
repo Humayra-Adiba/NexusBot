@@ -2,6 +2,8 @@ import nextcord
 from nextcord.ext import commands
 from nextcord.ext.commands import has_permissions
 import discord
+from nextcord.utils import get
+
 
 class Moderation(commands.Cog):
     def __init__(self, bot):
@@ -135,6 +137,58 @@ class Moderation(commands.Cog):
             await member.send(embed=dm_embed)
         except nextcord.Forbidden:
             await ctx.send("⚠️ Couldn't DM the user.")
+
+
+
+    @commands.command(name="mute", help="Mute a user. Usage: !mute @user [duration in minutes] [reason]")
+    @commands.has_permissions(manage_roles=True)
+    async def mute(self, ctx, member: nextcord.Member, duration: int = 0, *, reason: str = "No reason provided"):
+        guild = ctx.guild
+        mute_role = get(guild.roles, name="Muted")
+
+        # Create role if it doesn't exist
+        if not mute_role:
+            mute_role = await guild.create_role(name="Muted", reason="Mute role for muting members")
+            for channel in guild.channels:
+                await channel.set_permissions(mute_role, send_messages=False, speak=False, add_reactions=False)
+
+        # Apply mute role
+        await member.add_roles(mute_role, reason=reason)
+
+        embed = nextcord.Embed(
+            title="🔇 Member Muted",
+            description=f"{member.mention} has been muted.",
+            color=nextcord.Color.red()
+        )
+        embed.add_field(name="Reason", value=reason, inline=False)
+        embed.add_field(name="Duration", value=f"{duration} minutes" if duration > 0 else "Indefinite", inline=False)
+        embed.set_footer(text=f"Muted by {ctx.author}", icon_url=ctx.author.avatar.url)
+        await ctx.send(embed=embed)
+
+        # If timed mute, schedule unmute
+        if duration > 0:
+            await asyncio.sleep(duration * 60)
+            await member.remove_roles(mute_role)
+            try:
+                await member.send(f"You have been unmuted in **{ctx.guild.name}**.")
+            except:
+                pass
+
+            unmute_embed = nextcord.Embed(
+                title="🔊 Member Unmuted",
+                description=f"{member.mention} has been automatically unmuted after {duration} minutes.",
+                color=nextcord.Color.green()
+            )
+            await ctx.send(embed=unmute_embed)
+
+    @mute.error
+    async def mute_error(self, ctx, error):
+        if isinstance(error, commands.MissingPermissions):
+            await ctx.send("❌ You don't have permission to mute members.")
+        elif isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send("❌ Please mention a user to mute. Example: `!mute @user 10 Spamming`")
+        else:
+            await ctx.send(f"❌ Error: {str(error)}")
 
 
 def setup(bot):

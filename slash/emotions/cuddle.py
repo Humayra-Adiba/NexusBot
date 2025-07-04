@@ -26,6 +26,8 @@ class Cuddle(commands.Cog):
         )
         embed.set_image(url=random.choice(gifs))
         await interaction.response.send_message(embed=embed)
+        embed.set_footer(text="Cuddle ~")
+        embed.timestamp = interaction.created_at
 
 def setup(bot):
     bot.add_cog(Cuddle(bot))

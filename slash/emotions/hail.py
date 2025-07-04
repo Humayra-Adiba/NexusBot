@@ -32,8 +32,9 @@ class Hail(commands.Cog):
         )
         embed.set_image(url=chosen_gif)
         embed.set_footer(text="Spread some smiles!", icon_url=interaction.user.display_avatar.url)
-
+        embed.timestamp = interaction.created_at
         await interaction.response.send_message(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(Hail(bot))

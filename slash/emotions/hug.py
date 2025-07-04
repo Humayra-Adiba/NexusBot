@@ -27,8 +27,8 @@ class Hug(commands.Cog):
 
         gif_url = random.choice(gifs)
         embed = nextcord.Embed(
-            title="A warm hug!",
-            description=f"{interaction.user.mention} gives {member.mention} a big hug 💞",
+            title="A warm hug!💞",
+            description=f"{interaction.user.mention} gives {member.mention} a big hug!!!🥰 ",
             color=nextcord.Color.green()
         )
         embed.set_image(url=gif_url)

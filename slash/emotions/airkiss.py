@@ -7,7 +7,7 @@ class Airkiss(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @nextcord.slash_command(name="airkiss", description="Give a airkiss someone with love!")
+    @nextcord.slash_command(name="kiss", description="Give a airkiss someone with love!")
     async def airkiss(
         self,
         interaction: Interaction,
@@ -34,6 +34,7 @@ class Airkiss(commands.Cog):
         )
         embed.set_image(url=chosen)
         await interaction.response.send_message(embed=embed)
-
+        embed.set_footer(text="Kiss ~")
+        embed.timestamp = interaction.created_at
 def setup(bot):
     bot.add_cog(Airkiss(bot))

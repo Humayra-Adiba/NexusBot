@@ -29,6 +29,8 @@ class Feed(commands.Cog):
         )
         embed.set_image(url=chosen)
         await interaction.response.send_message(embed=embed)
+        embed.set_footer(text="Feeding is caring!")
+        embed.timestamp = interaction.created_at
 
 def setup(bot):
     bot.add_cog(Feed(bot))
