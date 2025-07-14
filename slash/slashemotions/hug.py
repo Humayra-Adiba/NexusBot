@@ -32,6 +32,8 @@ class Hug(commands.Cog):
             color=nextcord.Color.green()
         )
         embed.set_image(url=gif_url)
+        embed.set_footer(text="Hugs are the best! :3")
+        embed.timestamp = interaction.created_at
         await interaction.response.send_message(embed=embed)
 
 def setup(bot):

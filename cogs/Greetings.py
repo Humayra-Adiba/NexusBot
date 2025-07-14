@@ -64,9 +64,7 @@ class Greetings(commands.Cog):
         msg_lower = message.content.lower()
 
         # Bot mention logic (only if exact and not a reply)
-        if (
-            message.content.strip() in [f"<@{self.bot.user.id}>", f"<@!{self.bot.user.id}>"]
-        ):
+        if message.content.strip() in [f"<@{self.bot.user.id}>", f"<@!{self.bot.user.id}>"]:
             if message.reference:
                 try:
                     ref_msg = await message.channel.fetch_message(message.reference.message_id)
@@ -76,26 +74,39 @@ class Greetings(commands.Cog):
                     return
 
             guild_name = message.guild.name if message.guild else "NexusBot"
+
             embed = nextcord.Embed(
-                title=guild_name.upper(),
+                title=f"👑 Welcome to {guild_name.upper()}!",
                 description=(
-                    f"Hello {message.author.mention}!\n\n"
-                    f"You can use my commands with the `!` prefix. Example: `!ping`\n"
-                    f"Use `!help` to see everything I can do!\n"
-                    f"Dashboard is coming soon!"
+                    f"👋 Hello {message.author.mention}!\n\n"
+                    f"🤖 I’m **NexusBot**, your all-in-one server companion for moderation, fun, games, and more.\n\n"
+                    f"🔹 Use my commands with the **`!`** prefix\n"
+                    f"🔸 Example: **`!ping`**\n"
+                    f"🔸 Need help? Just type **`!help`**\n\n"
+                    f"🛠️ Dashboard: Coming soon!"
                 ),
                 color=nextcord.Color.dark_purple()
             )
 
-            avatar_url = self.bot.user.avatar.url if self.bot.user.avatar else self.bot.user.default_avatar.url
+            avatar_url = (
+                self.bot.user.avatar.url
+                if self.bot.user.avatar else self.bot.user.default_avatar.url
+            )
             embed.set_author(name=self.bot.user.name, icon_url=avatar_url)
             embed.set_thumbnail(url=avatar_url)
-            embed.set_footer(text="NexusBot ✨")
+            embed.set_footer(text="✨ NexusBot – Making your server legendary!")
 
             view = nextcord.ui.View()
-            view.add_item(nextcord.ui.Button(label="Website", url="https://yourwebsite.com"))
-            view.add_item(nextcord.ui.Button(label="Invite", url="https://discord.com/oauth2/authorize?client_id=YOUR_BOT_ID&scope=bot&permissions=8"))
-            view.add_item(nextcord.ui.Button(label="Support", url="https://discord.gg/ySusFAKw"))
+            view.add_item(nextcord.ui.Button(
+                label="➕ Invite NexusBot",
+                style=nextcord.ButtonStyle.link,
+                url="https://discord.com/oauth2/authorize?client_id=1377525748201685063&scope=bot&permissions=8"
+            ))
+            view.add_item(nextcord.ui.Button(
+                label="🛟 Support Server",
+                style=nextcord.ButtonStyle.link,
+                url="https://discord.gg/zkwn3ZRaNq"
+            ))
 
             await message.channel.send(embed=embed, view=view)
             return
